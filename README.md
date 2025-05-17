@@ -36,7 +36,7 @@ Consequently, the log-likelihood of a sample can be directly estimated from the 
   - Enabaling full-circle SLERP for image interpolation.
 
 <p align="center">
-  <img src="assets/whitening_demo.png" width="600" alt="Whitening improves CLIP alignment">
+  <img src="method_fig.jpg" width="1000" alt="Whitening improves CLIP alignment">
 </p>
 
 ---
