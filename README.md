@@ -156,6 +156,13 @@ If you use this code or find it helpful, please cite:
 ```
 
 ---
+## 🎥 Presentation Video
+
+Watch a 6-minute overview of the paper and method:
+
+[![Watch on YouTube](https://img.shields.io/badge/YouTube-W_CLIP_Presentation-red?logo=youtube&style=for-the-badge)]([https://youtu.be/3JpucozKQ5I])
+
+---
 
 ## 🙋 Contact
 
