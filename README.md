@@ -40,6 +40,16 @@ Consequently, the log-likelihood of a sample can be directly estimated from the 
 </p>
 
 ---
+## 📓 Colab Notebooks
+
+You can explore the core functionality of W_CLIP directly in your browser via Google Colab:
+
+| Notebook | Description | Link |
+|----------|-------------|------|
+| `calc_log_like_image_demo.ipynb` | Computes log-likelihood for given images | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rbetser/W_CLIP/blob/main/calc_log_like_image_demo.ipynb) |
+| `calc_log_like_text_demo.ipynb` | Computes log-likelihood of text prompts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rbetser/W_CLIP/blob/main/calc_log_like_text_demo.ipynb) |
+
+---
 
 ## 📦 Installation
 
