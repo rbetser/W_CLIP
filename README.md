@@ -158,7 +158,7 @@ If you use this code or find it helpful, please cite:
 ---
 ## 🎥 Presentation Video
 
-📽️ [Watch the 5-minute video presentation on YouTube]([https://youtu.be/FIcgHjKhxfI])
+📽️ [Watch the 5-minute video presentation on YouTube](https://youtu.be/FIcgHjKhxfI)
 
 
 ---
