@@ -147,11 +147,9 @@ If you use this code or find it helpful, please cite:
 @inproceedings{betser2025whitened,
   title={Whitened CLIP as a Likelihood Surrogate of Images and Captions},
   author={Betser, Roy and Levi, Meir Yossef and Gilboa, Guy},
-  booktitle={Proceedings of the 42nd International Conference on Machine Learning (ICML)},
+  booktitle={International Conference on Machine Learning},
   year={2025},
-  note={To appear},
-  archivePrefix={arXiv},
-  eprint={2505.06934}
+  organization={PMLR}
 }
 ```
 
