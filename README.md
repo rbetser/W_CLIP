@@ -7,7 +7,8 @@
 > **Official repository** for the paper:  
 > 📄 **Whitened CLIP as a Likelihood Surrogate of Images and Captions**  
 > Accepted to the **42nd International Conference on Machine Learning (ICML 2025)**
-> [[arXiv:2505.06934](https://arxiv.org/abs/2505.06934)]
+
+📄 [Paper](https://arxiv.org/abs/2505.06934) (ICML 2025) • 🗂️ [Demo](https://huggingface.co/spaces/Yossilevii100/CLIPLatent) • 🌐 [Webpage](https://rbetser.github.io/W_CLIP/) • 🎥 [Video](https://youtu.be/FIcgHjKhxfI)
 
 ---
 
