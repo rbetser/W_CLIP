@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- TODO: Update description -->
+  <meta name="description" content="CLIDE — WACV 2026 paper: General and Domain-Specific Zero-shot Detection of Generated Images via Conditional Likelihood" />
+  <title>CLIDE — Zero-shot Detection of Generated Images</title>
+
+  <!-- Fonts and Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/ad96f96272.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --accent:#a259ff;
+      --accent-dark:#6f2da8;
+      --bg:#fafafa;
+      --card-bg:linear-gradient(145deg,#ffffff,#f2f0ff);
+    }
+    html,body { height:100%; }
+    body {
+      font-family:'Roboto',sans-serif;
+      background:var(--bg);
+      color:#222;
+      margin:0;
+      padding-top:70px;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    h1,h2,h3{ font-family:'Poppins',sans-serif; margin:0; }
+    a { color:#4b0082; text-decoration:none; position:relative; transition:0.24s; }
+    a:hover { color:var(--accent); }
+    a::after { content:''; position:absolute; width:0; height:2px; bottom:-2px; left:0; background-color:var(--accent); transition:width 0.25s ease-in-out; }
+    a:hover::after{ width:100%; }
+
+    .topnav {
+      position:fixed; top:0; left:0; right:0;
+      background:var(--accent);
+      display:flex; justify-content:center; gap:6px;
+      z-index:1000;
+      box-shadow:0 4px 6px rgba(0,0,0,0.1);
+      padding:10px 10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .topnav a { color:white; padding:8px 14px; text-align:center; font-weight:600; font-size:0.98rem; border-radius:6px; }
+    .topnav a:hover { background:rgba(255,255,255,0.12); }
+
+    section {
+      width:100%;
+      padding:48px 5%;
+      margin:20px 0;
+      border-radius:20px;
+      box-shadow:0 10px 20px rgba(162,89,255,0.12);
+      transition:transform 0.25s, box-shadow 0.25s;
+      background:var(--card-bg);
+    }
+    section:hover { transform:translateY(-6px); box-shadow:0 20px 40px rgba(162,89,255,0.18); }
+    .section-content { max-width:1000px; margin:0 auto; }
+
+    h1 { font-size:2.6rem; font-weight:800; text-align:center; color:var(--accent); line-height:1.05; }
+    h2 { font-size:1.8rem; color:#4b0082; margin-bottom:14px; text-align:center; }
+    p, li { font-size:1.05rem; line-height:1.6; color:#333; margin:0 0 12px 0; }
+
+    .authors-container { display:flex; justify-content:center; gap:28px; margin-top:14px; flex-wrap:wrap; align-items:center; }
+    .author { display:flex; flex-direction:column; align-items:center; transition:transform 0.2s; }
+    .author a { margin-top:6px; color:#2b1b6a; font-weight:600; font-size:0.97rem; text-align:center; }
+    .author img { width:68px; height:68px; border-radius:50%; object-fit:cover; margin-bottom:6px; transition:transform 0.25s, box-shadow 0.25s; cursor:pointer; box-shadow:0 6px 12px rgba(0,0,0,0.06); }
+    .author:hover img { transform:scale(1.08); }
+    .vertical-line { border-left:2px solid var(--accent); height:70px; margin:0 28px; align-self:center; }
+
+    .btn-row { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    .btn-custom {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 14px;
+      background:var(--accent);
+      color:#fff; border:none; border-radius:9px;
+      font-weight:600; transition:0.18s; cursor:pointer; text-decoration:none;
+    }
+    .btn-custom img { height:18px; width:auto; display:block; }
+    .btn-custom i { font-size:14px; }
+    .btn-custom:hover { background:var(--accent-dark); transform:translateY(-2px); }
+
+    .abstract-container { display:flex; gap:18px; align-items:stretch; justify-content:center; flex-wrap:wrap; margin-top:8px; }
+    .abstract-text, .abstract-teaser-wrapper { flex:1 1 45%; min-width:280px; display:flex; flex-direction:column; }
+    .abstract-teaser-wrapper img { object-fit:contain; width:100%; max-width:420px; cursor:pointer; border-radius:14px; margin:auto; display:block; }
+    @media (max-width:900px) { .abstract-text, .abstract-teaser-wrapper { flex:1 1 100%; } }
+
+    .insights-container { display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; justify-content:center; margin-top:8px; }
+    .insights-grid {
+      flex: 1 1 100%;
+      display: grid;
+      grid-template-columns: 1fr;   /* ONE insight per row */
+      gap: 28px;
+    }
+    @media (max-width: 700px) { .insights-grid { grid-template-columns: 1fr; } }
+
+    .card-insight {
+      display: flex;
+      flex-direction: column;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #fff, #f0f0f5);
+      box-shadow: 0 8px 22px rgba(162, 89, 255, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      padding: 20px;
+    }
+    .card-insight:hover { transform: translateY(-8px); box-shadow: 0 22px 40px rgba(162, 89, 255, 0.2); }
+    .card-insight .upper { flex: 0 0 auto; text-align: center; }
+    .card-insight .upper h3 { color: var(--accent); margin: 0 0 12px 0; }
+    .card-insight .bottom {
+      display: flex;
+      flex-direction: row;      /* image LEFT, text RIGHT */
+      gap: 24px;
+      align-items: center;
+    }
+    
+    .card-insight .bottom .left {
+      flex: 0 0 55%;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .card-insight .bottom .left img {
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+    }
+    
+    .card-insight .bottom .right {
+      flex: 0 0 45%;
+    }
+    @media (max-width:900px) {
+      .card-insight .bottom .left,
+      .card-insight .bottom .right { flex:1 1 100%; }
+    }
+
+    .dataset-images {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .dataset-images img {
+      height: 220px;          /* SAME height */
+      width: auto;            /* auto-adjust width */
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(162,89,255,0.12);
+    }
+    
+    /* Mobile-friendly */
+    @media (max-width: 700px) {
+      .dataset-images img {
+        height: 180px;
+      }
+    }
+
+    iframe { border-radius:14px; max-width:100%; width:100%; height:450px; box-shadow:0 8px 28px rgba(162,89,255,0.12); margin-top:20px; display:block; margin-left:auto; margin-right:auto; }
+    pre { background:#eaeaea; padding:16px; border-radius:12px; overflow-x:auto; color:#222; }
+    footer { text-align:center; padding:44px 20px; font-size:0.95rem; color:#555; }
+
+    /* Modal */
+    .modal { display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.9); }
+    .modal-inner { position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+    .modal-content { max-width:92%; max-height:92%; border-radius:12px; box-shadow:0 18px 40px rgba(0,0,0,0.6); transform-origin:center center; transition:transform 0.12s; }
+    .close { position:absolute; top:18px; right:24px; color:#fff; font-size:36px; font-weight:bold; transition:0.18s; cursor:pointer; background:transparent; border:none; }
+    .close:hover { color:#bbb; }
+  </style>
+</head>
+
+<body>
+  <!-- Top Navigation -->
+  <div class="topnav" role="navigation" aria-label="Main navigation">
+    <a href="#hero">Home</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#insights">Key Insights</a>
+    <a href="#datasets">Datasets</a>
+    <a href="#bibtex">BibTeX</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero" aria-label="Hero section">
+    <div class="section-content">
+      <h1>CLIDE: Real or Fake?</h1>
+      <h2>General and Domain-Specific Zero-shot Detection of Generated Images via Conditional Likelihood, WACV 2026</h2>
+
+      <!-- Authors -->
+      <div class="authors-container">
+        <!-- TODO: replace href + img with real pages/portraits (or remove img if you prefer) -->
+        <div class="author">
+          <a href="#" aria-label="Roy Betser">
+            <img src="misc/roy.JPG" alt="Roy Betser portrait">
+          </a>
+          <a href="#">Roy Betser</a>
+        </div>
+        <div class="author">
+          <a href="https://www.linkedin.com/in/omer-hofman-86688a192/" aria-label="Omer Hofman">
+            <img src="misc/omer.jpg" alt="Omer Hofman portrait">
+          </a>
+          <a href="#">Omer Hofman</a>
+        </div>
+        <div class="author">
+          <a href="https://www.linkedin.com/in/romanva/" aria-label="Roman Vainshtein">
+            <img src="misc/roman.jpg" alt="Roman Vainshtein portrait">
+          </a>
+          <a href="#">Roman Vainshtein</a>
+        </div>
+        <div class="author">
+          <a href="https://guygilboa.net.technion.ac.il" aria-label="Guy Gilboa">
+            <img src="misc/guy.png" alt="Guy Gilboa portrait">
+          </a>
+          <a href="#">Guy Gilboa</a>
+        </div>
+
+        <div class="vertical-line" aria-hidden="true"></div>
+
+        <!-- Affiliations -->
+        <div class="author">
+          <a href="https://www.technion.ac.il/en/" aria-label="Technion website">
+            <img src="misc/technion.png" alt="Technion logo" style="background:black;">
+          </a>
+          <a href="https://www.technion.ac.il/en/">Technion</a>
+        </div>
+        <div class="author">
+          <a href="https://www.fujitsu.com/" aria-label="Fujitsu website">
+            <img src="misc/fujitsu.jpg" alt="Fujitsu logo" style="background:white; border-radius: 0; width:210px; height:auto;">
+          </a>
+          <a href="https://www.fujitsu.com/">Fujitsu Research of Europe</a>
+        </div>
+      </div>
+
+      <!-- Buttons row -->
+      <div class="btn-row" role="toolbar" aria-label="Primary links">
+        <a class="btn-custom" href="https://arxiv.org/abs/2512.05590" target="_blank" rel="noopener" aria-label="Open arXiv paper">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/ArXiv_logo_2022.svg/512px-ArXiv_logo_2022.svg.png" alt="ArXiv logo"> Paper
+        </a>
+        <a class="btn-custom" href="https://github.com/FujitsuResearch/domain-adaptive-image-detection" target="_blank" rel="noopener" aria-label="Open code on GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i> Code
+        </a>
+        <a class="btn-custom" href="https://huggingface.co/datasets/Fujitsu-FRE/clide_synthetic_datasets" target="_blank" rel="noopener" aria-label="Open datasets on Hugging Face">
+          <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face logo"> Dataset
+        </a>
+        <a class="btn-custom" href="#" aria-label="Watch video">
+          <i class="fas fa-video" aria-hidden="true"></i> Video
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract + Teaser -->
+  <section id="abstract" aria-label="Abstract section">
+    <div class="section-content">
+      <h2>Abstract</h2>
+      <div class="abstract-container">
+        <div class="abstract-text">
+          <p>
+            We present <strong>CLIDE</strong>, a zero-shot method for detecting AI-generated images using a
+            <strong>conditional likelihood approximation</strong> over CLIP embeddings. Our approach applies a
+            <strong>whitening transform</strong> to image features and uses the resulting, approximate Gaussian embeddings,
+            to compute likelihood values used as a detection score. Our method operates <strong>without training</strong>strong> or access to <strong>generated images</strong>. 
+            CLIDE supports both <strong>general</strong> and <strong>domain-specific</strong> settings and is designed to remain effective
+            under practical distribution shifts across generators and domains.
+          </p>
+        </div>
+        <div class="abstract-teaser-wrapper">
+          <!-- TODO: add your teaser/poster image -->
+          <img id="abstract-teaser" src="misc/poster.jpg" alt="CLIDE teaser figure">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal for teaser fullscreen -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-inner" id="modal-inner">
+      <button class="close" id="modal-close" aria-label="Close image">&times;</button>
+      <img class="modal-content" id="modal-img" src="" alt="Expanded view">
+    </div>
+  </div>
+
+  <!-- Key Insights -->
+  <section id="insights" aria-label="Key insights">
+    <div class="section-content">
+      <h2>Key Insights</h2>
+      <div class="insights-container">
+        <div class="insights-grid" role="list">
+
+          <div class="card-insight">
+            <div class="upper"><h3>Conditional Likelihood</h3></div>
+            <div class="bottom">
+              <div class="left"><img src="misc/teaser.jpg" alt="Conditional likelihood diagram"></div>
+              <div class="right">
+                <p>
+                  We generalize CLIP’s data-driven likelihood approximation from a <strong>global</strong>strong> score to a <strong>conditional</strong>strong> likelihood model.
+                  Gaussian behavior holds reliably in examined <strong>subspaces</strong>, not just in the full embedding space. </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-insight">
+            <div class="upper"><h3>Zero-shot Detector</h3></div>
+            <div class="bottom">
+              <div class="left"><img src="misc/whitening.jpg" alt="Whitening diagram"></div>
+              <div class="right">
+                <p>
+                  All existing zero-shot detectors <strong>implicitly</strong> model the likelihood that an image is real.
+                  CLIDE <strong>explicitly</strong> models this likelihood and by operating under a Gaussian model.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-insight">
+            <div class="upper"><h3>Domain-specific Adaptation</h3></div>
+            <div class="bottom">
+              <div class="left"><img src="misc/domains.JPG" alt="Domain adaptation diagram"></div>
+              <div class="right">
+                <p>
+                  Use <strong>domain-representative real</strong> image examples for <strong>local statistics</strong>, improving performance on practical target domains (e.g., damaged cars, invoices).
+                  We empirically validate <strong>Gaussian behavior</strong> in subspaces using <strong>normality tests</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-insight">
+            <div class="upper"><h3>Consisten Behavior</h3></div>
+            <div class="bottom">
+              <div class="left"><img src="misc/opp_hists.jpg" alt="Deployment diagram"></div>
+              <div class="right">
+                <p>
+                  CLIDE operates <strong>consistently</strong> across different generators and domains.
+                  Other methods exhibit a <strong>substantial performance drop</strong> in specific domains and suffer from <strong>classification flipping</strong>,
+                  where images generated by different generators fall on opposite sides of the real images in the detection criterion space.
+                  In contrast, <strong>CLIDE</strong> maintains a <strong>stable scoring geometry</strong>, preventing such flips.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Datasets section -->
+  <section id="datasets" aria-label="Datasets">
+    <div class="section-content">
+      <h2>Datasets</h2>
+      <p>
+        In addition to existing datasets of general and artistic images, we introduce
+        <strong>new synthetic datasets in two practical domains</strong>:
+        <strong>damaged cars</strong> and <strong>invoices</strong>.
+        The damaged-car dataset includes images generated by <strong>five different generators</strong>,
+        while the invoice dataset is generated by a <strong>single model</strong>.
+        All synthetic datasets are publicly available at
+        <a href="https://huggingface.co/datasets/Fujitsu-FRE/clide_synthetic_datasets"
+           target="_blank" rel="noopener">
+          clide_synthetic_datasets
+        </a>.
+      </p>
+      <div class="dataset-images">
+        <img src="misc/car_examples.jpg" alt="Damaged cars dataset examples">
+        <img src="misc/invoice_example.png" alt="Invoice dataset examples">
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Papers Section -->
+  <section id="related-papers" aria-label="Related Papers">
+    <div class="section-content">
+      <h2>Related Papers</h2>
+      <ul>
+        <li>
+          <a href="https://yossilevii100.github.io/double-ellipsoid-clip/" target="_blank" rel="noopener">
+            The Double-Ellipsoid Geometry of CLIP (ICML 2025)
+          </a>
+        </li>
+        <li>
+          <a href="https://arxiv.org/abs/2512.03994" target="_blank" rel="noopener">
+            Whitened CLIP as a Likelihood Surrogate of Images and Captions (ICML 2025)
+          </a>
+        </li>
+        <li>
+          <a href="https://yossilevii100.github.io/double-ellipsoid-clip/" target="_blank" rel="noopener">
+            Training-Free Policy Violation Detection via Activation-Space Whitening in LLMs (DAI, AAAI workshop 2026)
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BibTeX -->
+  <section id="bibtex" aria-label="BibTeX">
+    <div class="section-content">
+      <h2>BibTeX</h2>
+      <div style="position: relative; display: flex; flex-direction: column; max-width:700px;">
+        <pre id="bibtex-text" style="margin:0; padding-bottom:40px;">@inproceedings{betser2026clide,
+  title     = {General and Domain-Specific Zero-shot Detection of Generated Images via Conditional Likelihood},
+  author    = {Betser, Roy and Hofman, Omer and Vainshtein, Roman and Gilboa, Guy},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year      = {2026},
+  eprint    = {2512.05590},
+  archivePrefix = {arXiv},
+}</pre>
+        <button class="btn-custom" id="copy-bibtex-btn" style="position:absolute; bottom:0; right:0; margin:10px;">
+          Copy BibTeX
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 CLIDE Authors
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Copy BibTeX
+    const copyBtn = document.getElementById('copy-bibtex-btn');
+    const bibtexText = document.getElementById('bibtex-text');
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(bibtexText.innerText)
+        .then(() => {
+          copyBtn.innerText = 'Copied!';
+          setTimeout(() => { copyBtn.innerText = 'Copy BibTeX'; }, 1500);
+        })
+        .catch(() => {
+          copyBtn.innerText = 'Failed';
+          setTimeout(() => { copyBtn.innerText = 'Copy BibTeX'; }, 1500);
+        });
+    });
+
+    // Modal teaser fullscreen
+    (function(){
+      const modal = document.getElementById('modal');
+      const modalImg = document.getElementById('modal-img');
+      const teaser = document.getElementById('abstract-teaser');
+      const closeBtn = document.getElementById('modal-close');
+      let scale = 1;
+
+      function openModal(src, alt) {
+        modalImg.src = src;
+        modalImg.alt = alt || '';
+        scale = 1;
+        modalImg.style.transform = 'scale(1)';
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+        closeBtn.focus();
+      }
+      function closeModal() {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        modalImg.src = '';
+      }
+
+      if (teaser) teaser.addEventListener('click', () => openModal(teaser.src, teaser.alt));
+      closeBtn.addEventListener('click', closeModal);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'block') closeModal();
+      });
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      modalImg.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = -e.deltaY;
+        if (delta > 0) scale = Math.min(3, scale + 0.1);
+        else scale = Math.max(0.6, scale - 0.1);
+        modalImg.style.transform = 'scale(' + scale + ')';
+      }, { passive: false });
+    })();
+
+    // Smooth scroll
+    (function(){
+      const navLinks = document.querySelectorAll('.topnav a[href^="#"]');
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const id = link.getAttribute('href').slice(1);
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
