@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
 
 > **Official repository** for the paper:  
-> 📄 **W_CLIP: Whitening-Enhanced Likelihood for Image-Text Embedding Alignment**  
+> 📄 **Whitened CLIP as a Likelihood Surrogate of Images and Captions**  
 > Accepted to the **42nd International Conference on Machine Learning (ICML 2025)**
 > [[arXiv:2505.06934](https://arxiv.org/abs/2505.06934)]
 
