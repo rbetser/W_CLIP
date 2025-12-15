@@ -6,7 +6,7 @@
 
   <!-- TODO: Update description -->
   <meta name="description" content="W-CLIP — ICML 2025 paper: Whitened CLIP as a Likelihood Surrogate of Images and Captions" />
-  <title>"W-CLIP — Likelihood Surrogate of Images and Captions</title>
+  <title>"W-CLIP - Likelihood Surrogate of Images and Captions</title>
 
   <!-- Fonts and Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -183,7 +183,7 @@
     <a href="#hero">Home</a>
     <a href="#abstract">Abstract</a>
     <a href="#insights">Key Insights</a>
-    <a href="#datasets">Datasets</a>
+    <a href="#related-papers">Related papers</a>
     <a href="#bibtex">BibTeX</a>
   </div>
 
@@ -234,7 +234,7 @@
         <a class="btn-custom" href="https://github.com/rbetser/W_CLIP/tree/main" target="_blank" rel="noopener" aria-label="Open code on GitHub">
           <i class="fab fa-github" aria-hidden="true"></i> Code
         </a>
-        <a class="btn-custom" href="https://huggingface.co/spaces/Yossilevii100/CLIPLatent" target="_blank" rel="noopener" aria-label="Open datasets on Hugging Face">
+        <a class="btn-custom" href="https://huggingface.co/spaces/Yossilevii100/CLIPLatent" target="_blank" rel="noopener" aria-label="Open  on Hugging Face">
           <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face logo"> Dataset
         </a>
         <a class="btn-custom" href="https://www.youtube.com/watch?v=FIcgHjKhxfI" aria-label="Watch video">
@@ -251,17 +251,15 @@
       <div class="abstract-container">
         <div class="abstract-text">
           <p>
-            We present <strong>CLIDE</strong>, a zero-shot method for detecting AI-generated images using a
-            <strong>conditional likelihood approximation</strong> over CLIP embeddings. Our approach applies a
-            <strong>whitening transform</strong> to image features and uses the resulting, approximate Gaussian embeddings,
-            to compute likelihood values used as a detection score. Our method operates <strong>without training</strong>strong> or access to <strong>generated images</strong>. 
-            CLIDE supports both <strong>general</strong> and <strong>domain-specific</strong> settings and is designed to remain effective
-            under practical distribution shifts across generators and domains.
+            Whitened CLIP proposes a <strong>training-free, invertible linear whitening</strong> of CLIP embeddings so that features have <strong>zero mean</strong> and <strong>identity covariance</strong>, 
+            making the transformed embeddings approximately <strong>standard normal</strong>. This enables a simple likelihood surrogate: the log-likelihood is proportional 
+            to the <strong>squared Euclidean norm</strong> in the whitened space. The paper validates Gaussianity with statistical tests and demonstrates applications for both 
+            <strong>images and captions</strong>, including identifying generation with artifacts and ranking distribution shifts and text complexity.
           </p>
         </div>
         <div class="abstract-teaser-wrapper">
           <!-- TODO: add your teaser/poster image -->
-          <img id="abstract-teaser" src="misc/poster.jpg" alt="CLIDE teaser figure">
+          <img id="abstract-teaser" src="misc/poster.jpg" alt="WCLIP teaser figure">
         </div>
       </div>
     </div>
@@ -283,52 +281,49 @@
         <div class="insights-grid" role="list">
 
           <div class="card-insight">
-            <div class="upper"><h3>Conditional Likelihood</h3></div>
+            <div class="upper"><h3>Whitening</h3></div>
             <div class="bottom">
-              <div class="left"><img src="misc/teaser.jpg" alt="Conditional likelihood diagram"></div>
+              <div class="left"><img src="misc/whitening.jpg" alt="Conditional likelihood diagram"></div>
               <div class="right">
                 <p>
-                  We generalize CLIP’s data-driven likelihood approximation from a <strong>global</strong>strong> score to a <strong>conditional</strong>strong> likelihood model.
-                  Gaussian behavior holds reliably in examined <strong>subspaces</strong>, not just in the full embedding space. </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-insight">
-            <div class="upper"><h3>Zero-shot Detector</h3></div>
-            <div class="bottom">
-              <div class="left"><img src="misc/whitening.jpg" alt="Whitening diagram"></div>
-              <div class="right">
-                <p>
-                  All existing zero-shot detectors <strong>implicitly</strong> model the likelihood that an image is real.
-                  CLIDE <strong>explicitly</strong> models this likelihood and by operating under a Gaussian model.
-              </div>
-            </div>
-          </div>
-
-          <div class="card-insight">
-            <div class="upper"><h3>Domain-specific Adaptation</h3></div>
-            <div class="bottom">
-              <div class="left"><img src="misc/domains.JPG" alt="Domain adaptation diagram"></div>
-              <div class="right">
-                <p>
-                  Use <strong>domain-representative real</strong> image examples for <strong>local statistics</strong>, improving performance on practical target domains (e.g., damaged cars, invoices).
-                  We empirically validate <strong>Gaussian behavior</strong> in subspaces using <strong>normality tests</strong>.
+                  We introduce <strong>Whitened CLIP</strong>: an <strong>invertible, training-free</strong> linear whitening of CLIP embeddings that enforces <strong>zero mean</strong> and <strong>identity covariance</strong>. 
                 </p>
               </div>
             </div>
           </div>
 
           <div class="card-insight">
-            <div class="upper"><h3>Consisten Behavior</h3></div>
+            <div class="upper"><h3>Likelihood Approximation</h3></div>
+            <div class="bottom">
+              <div class="left"><img src="misc/whitening.jpg" alt="Whitening diagram"></div>
+              <div class="right">
+                <p></p>
+                  In the whitened space, embeddings are well-approximated by a <strong>standard normal distribution</strong>, so likelihood becomes simple:
+                  <strong>higher norms ⇒ lower likelihood</strong> (and vice versa).
+              </div>
+            </div>
+          </div>
+
+          <div class="card-insight">
+            <div class="upper"><h3>Statistical Validation</h3></div>
+            <div class="bottom">
+              <div class="left"><img src="misc/domains.JPG" alt="Domain adaptation diagram"></div>
+              <div class="right">
+                <p>
+                  We empirically validate the Gaussian behavior using <strong>normality tests</strong> (e.g., <strong>Anderson–Darling</strong> and <strong>D’Agostino–Pearson</strong>), and correlation measurements supporting the likelihood interpretation.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-insight">
+            <div class="upper"><h3>Applications</h3></div>
             <div class="bottom">
               <div class="left"><img src="misc/opp_hists.jpg" alt="Deployment diagram"></div>
               <div class="right">
                 <p>
-                  CLIDE operates <strong>consistently</strong> across different generators and domains.
-                  Other methods exhibit a <strong>substantial performance drop</strong> in specific domains and suffer from <strong>classification flipping</strong>,
-                  where images generated by different generators fall on opposite sides of the real images in the detection criterion space.
-                  In contrast, <strong>CLIDE</strong> maintains a <strong>stable scoring geometry</strong>, preventing such flips.
+                  The resulting likelihood surrogate works for both <strong>images</strong> and <strong>captions</strong>, enabling practical diagnostics such as
+                  <strong>artifact discovery</strong> in generated images and <strong>generative bias</strong> in generators, <strong>ranking distribution shifts</strong> and measuring <strong>text complexity</strong>.
                 </p>
               </div>
             </div>
@@ -338,30 +333,7 @@
       </div>
     </div>
   </section>
-
-  <!-- Datasets section -->
-  <section id="datasets" aria-label="Datasets">
-    <div class="section-content">
-      <h2>Datasets</h2>
-      <p>
-        In addition to existing datasets of general and artistic images, we introduce
-        <strong>new synthetic datasets in two practical domains</strong>:
-        <strong>damaged cars</strong> and <strong>invoices</strong>.
-        The damaged-car dataset includes images generated by <strong>five different generators</strong>,
-        while the invoice dataset is generated by a <strong>single model</strong>.
-        All synthetic datasets are publicly available at
-        <a href="https://huggingface.co/datasets/Fujitsu-FRE/clide_synthetic_datasets"
-           target="_blank" rel="noopener">
-          clide_synthetic_datasets
-        </a>.
-      </p>
-      <div class="dataset-images">
-        <img src="misc/car_examples.jpg" alt="Damaged cars dataset examples">
-        <img src="misc/invoice_example.png" alt="Invoice dataset examples">
-      </div>
-    </div>
-  </section>
-
+  
   <!-- Related Papers Section -->
   <section id="related-papers" aria-label="Related Papers">
     <div class="section-content">
@@ -391,12 +363,12 @@
     <div class="section-content">
       <h2>BibTeX</h2>
       <div style="position: relative; display: flex; flex-direction: column; max-width:700px;">
-        <pre id="bibtex-text" style="margin:0; padding-bottom:40px;">@inproceedings{betser2026clide,
-  title     = {Whitened CLIP as a Likelihood Surrogate of Images and Captions},
-  author    = {Betser, Roy and Levi, Meir Yossef and Gilboa, Guy},
-  booktitle = {Proceedings of the 42nd International Conference on Machine Learning (ICML)},
-  year      = {2025},
-  organization    = {PMLR},
+        <pre id="bibtex-text" style="margin:0; padding-bottom:40px;">@inproceedings{betser2026whitened,
+  title         = {Whitened CLIP as a Likelihood Surrogate of Images and Captions},
+  author        = {Betser, Roy and Levi, Meir Yossef and Gilboa, Guy},
+  booktitle     = {Proceedings of the 42nd International Conference on Machine Learning (ICML)},
+  year          = {2025},
+  organization  = {PMLR},
 }</pre>
         <button class="btn-custom" id="copy-bibtex-btn" style="position:absolute; bottom:0; right:0; margin:10px;">
           Copy BibTeX
